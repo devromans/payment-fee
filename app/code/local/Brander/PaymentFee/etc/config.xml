@@ -1,0 +1,151 @@
+<?xml version="1.0"?>
+<!--
+/**
+* Created by Brander
+* Based on Module from "Magentix" (https://github.com/magentix/Fee)
+*
+* @category   Brander
+* @package    Brander_PaymentFee
+* @author     Roman Shopin (roman.s@devromans.com)
+* @license    This work is free software, you can redistribute it and/or modify it
+*/
+-->
+<config>
+    <modules>
+        <Brander_PaymentFee>
+            <version>0.1.0</version>
+        </Brander_PaymentFee>
+    </modules>
+    <global>
+        <models>
+            <payment_fee>
+                <class>Brander_PaymentFee_Model</class>
+            </payment_fee>
+        </models>
+        <blocks>
+            <payment_fee>
+                <class>Brander_PaymentFee_Block</class>
+            </payment_fee>
+        </blocks>
+        <helpers>
+            <payment_fee>
+                <class>Brander_PaymentFee_Helper</class>
+            </payment_fee>
+        </helpers>
+        <resources>
+            <payment_fee_setup>
+                <setup>
+                    <module>Brander_PaymentFee</module>
+                    <class>Mage_Core_Model_Resource_Setup</class>
+                </setup>
+            </payment_fee_setup>
+        </resources>
+        <sales>
+            <quote>
+                <totals>
+                    <fee>
+                        <class>payment_fee/sales_quote_address_total_fee</class>
+                        <renderer>payment_fee/checkout_totals_fee</renderer>
+                        <admin_renderer>payment_fee/adminhtml_sales_order_create_totals_fee</admin_renderer>
+                        <after>customerbalance,discount,freeshipping,msrp,nominal,shipping,subtotal,tax,tax_shipping,tax_subtotal,weee</after>
+                        <before>grand_total</before>
+                    </fee>
+                </totals>
+            </quote>
+            <order_invoice>
+                <totals>
+                    <fee>
+                        <class>payment_fee/sales_order_total_invoice_fee</class>
+                    </fee>
+                </totals>
+            </order_invoice>
+            <order_creditmemo>
+                <totals>
+                    <fee>
+                        <class>payment_fee/sales_order_total_creditmemo_fee</class>
+                    </fee>
+                </totals>
+            </order_creditmemo>
+        </sales>
+        <events>
+            <paypal_prepare_line_items>
+                <observers>
+                    <payment_fee_paypal_prepare_line_items>
+                        <class>payment_fee/observer</class>
+                        <method>updatePaypalTotal</method>
+                    </payment_fee_paypal_prepare_line_items>
+                </observers>
+            </paypal_prepare_line_items>
+            <sales_order_invoice_save_after>
+                <observers>
+                    <payment_fee_sales_order_invoice_save_after>
+                        <class>payment_fee/observer</class>
+                        <method>invoiceSaveAfter</method>
+                    </payment_fee_sales_order_invoice_save_after>
+                </observers>
+            </sales_order_invoice_save_after>
+            <sales_order_creditmemo_save_after>
+                <observers>
+                    <payment_fee_sales_order_creditmemo_save_after>
+                        <class>payment_fee/observer</class>
+                        <method>creditmemoSaveAfter</method>
+                    </payment_fee_sales_order_creditmemo_save_after>
+                </observers>
+            </sales_order_creditmemo_save_after>
+        </events>
+        <fieldsets>
+            <sales_convert_quote_address>
+                <fee_amount>
+                    <to_order>*</to_order>
+                </fee_amount>
+                <base_fee_amount>
+                    <to_order>*</to_order>
+                </base_fee_amount>
+            </sales_convert_quote_address>
+        </fieldsets>
+        <pdf>
+            <totals>
+                <fee translate="title">
+                    <title>Fee</title>
+                    <source_field>fee_amount</source_field>
+                    <font_size>7</font_size>
+                    <display_zero>0</display_zero>
+                    <sort_order>650</sort_order>
+                    <amount_prefix></amount_prefix>
+                </fee>
+            </totals>
+        </pdf>
+    </global>
+    <frontend>
+        <layout>
+            <updates>
+                <payment_fee>
+                    <file>brander/payment_fee.xml</file>
+                </payment_fee>
+            </updates>
+        </layout>
+    </frontend>
+    <adminhtml>
+        <layout>
+            <updates>
+                <payment_fee>
+                    <file>brander/payment_fee.xml</file>
+                </payment_fee>
+            </updates>
+        </layout>
+    </adminhtml>
+    <default>
+        <payment_fee>
+            <payment_fee>
+                <enabled>0</enabled>
+                <fee_type>P</fee_type>
+                <default_description>Payment Fee</default_description>
+            </payment_fee>
+        </payment_fee>
+        <sales>
+            <totals_sort>
+                <fee>99</fee>
+            </totals_sort>
+        </sales>
+    </default>
+</config>

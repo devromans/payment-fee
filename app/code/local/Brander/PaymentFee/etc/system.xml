@@ -1,0 +1,87 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Created by Brander
+ * Based on Module from "Magentix" (https://github.com/magentix/Fee)
+ *
+ * @category   Brander
+ * @package    Brander_PaymentFee
+ * @author     Roman Shopin (roman.s@devromans.com)
+ * @license    This work is free software, you can redistribute it and/or modify it
+ */
+-->
+<config>
+    <sections>
+        <payment_fee>
+            <tab>sales</tab>
+            <label>Payment Method Fee</label>
+            <show_in_default>1</show_in_default>
+            <show_in_store>1</show_in_store>
+            <show_in_website>1</show_in_website>
+            <sort_order>401</sort_order>
+            <groups>
+                <payment_fee translate="label" module="payment_fee">
+                    <label>Payment Method Fee</label>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <sort_order>9999</sort_order>
+                    <fields>
+                        <enabled translate="label" module="payment_fee">
+                            <label>Enable Payment Method Fee Functionality</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <backend_model>adminhtml/system_config_backend_cache</backend_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </enabled>
+                        <fee_type translate="label" module="payment_fee">
+                            <label>Calculate Handling Fee</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>shipping/source_handlingType</source_model>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </fee_type>
+                        <default_description translate="label" module="payment_fee">
+                            <label>Default Description</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </default_description>
+                        <fee>
+                            <label>Fee</label>
+                            <frontend_model>payment_fee/adminhtml_system_config_field_fee</frontend_model>
+                            <backend_model>adminhtml/system_config_backend_serialized_array</backend_model>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </fee>
+                    </fields>
+                </payment_fee>
+            </groups>
+        </payment_fee>
+        <sales>
+            <groups>
+                <totals_sort>
+                    <fields>
+                        <fee module="payment_fee" translate="label">
+                            <label>Payment Fee</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>100</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </fee>
+                    </fields>
+                </totals_sort>
+            </groups>
+        </sales>
+    </sections>
+</config>

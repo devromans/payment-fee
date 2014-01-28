@@ -1,0 +1,23 @@
+<?php
+/**
+ * Created by Brander
+ * Based on Module from "Magentix" (https://github.com/magentix/Fee)
+ *
+ * @category   Brander
+ * @package    Brander_PaymentFee
+ * @author     Roman Shopin (roman.s@devromans.com)
+ * @license    This work is free software, you can redistribute it and/or modify it
+ */
+?>
+
+<?php $this->setPriceDataObject($this->getSource()) ?>
+<?php if ((float) $this->getSource()->getFeeAmount()): ?>
+    <tr>
+        <?php $method = $this->getOrder()->getPayment()->getMethod(); ?>
+        <?php $title  = Mage::getModel('payment_fee/fee')->getTotalTitle($method); ?>
+        <td class="label"><?php echo $title; ?></td>
+        <td>
+            <?php echo $this->displayPrices($this->getSource()->getBaseFeeAmount(), $this->getSource()->getFeeAmount()); ?>
+        </td>
+    </tr>
+<?php endif; ?>

@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Brander_PaymentFee>
+            <active>true</active>
+            <codePool>local</codePool>
+            <depends>
+                <Mage_Sales />
+            </depends>
+        </Brander_PaymentFee>
+    </modules>
+</config>

@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+<!--
+/**
+* Created by Brander
+* Based on Module from "Magentix" (https://github.com/magentix/Fee)
+*
+* @category   Brander
+* @package    Brander_PaymentFee
+* @author     Roman Shopin (roman.s@devromans.com)
+* @license    This work is free software, you can redistribute it and/or modify it
+*/
+-->
+<layout version="0.1.0">
+    <adminhtml_sales_order_view>
+        <reference name="order_totals">
+            <block type="adminhtml/sales_order_totals_item" name="fee" template="brander/payment_fee/sales/order/total.phtml"/>
+            <block type="adminhtml/sales_order_totals_item" name="fee.refunded" template="brander/payment_fee/sales/order/refunded.phtml">
+                <action method="setDisplayArea">
+                    <area>footer</area>
+                </action>
+                <action method="setAfterCondition">
+                    <condition>last</condition>
+                </action>
+            </block>
+        </reference>
+    </adminhtml_sales_order_view>
+    <adminhtml_sales_order_invoice_new>
+        <reference name="invoice_totals">
+            <block type="adminhtml/sales_order_totals_item" name="fee" template="brander/payment_fee/sales/order/total.phtml"/>
+        </reference>
+    </adminhtml_sales_order_invoice_new>
+    <adminhtml_sales_order_invoice_updateqty>
+        <reference name="invoice_totals">
+            <block type="adminhtml/sales_order_totals_item" name="fee" template="brander/payment_fee/sales/order/total.phtml"/>
+        </reference>
+    </adminhtml_sales_order_invoice_updateqty>
+    <adminhtml_sales_order_invoice_view>
+        <reference name="invoice_totals">
+            <block type="adminhtml/sales_order_totals_item" name="fee" template="brander/payment_fee/sales/order/total.phtml"/>
+        </reference>
+    </adminhtml_sales_order_invoice_view>
+    <adminhtml_sales_order_creditmemo_new>
+        <reference name="creditmemo_totals">
+            <block type="adminhtml/sales_order_totals_item" name="fee" template="brander/payment_fee/sales/order/total.phtml"/>
+        </reference>
+    </adminhtml_sales_order_creditmemo_new>
+    <adminhtml_sales_order_creditmemo_updateqty>
+        <reference name="creditmemo_totals">
+            <block type="adminhtml/sales_order_totals_item" name="fee" template="brander/payment_fee/sales/order/total.phtml"/>
+        </reference>
+    </adminhtml_sales_order_creditmemo_updateqty>
+    <adminhtml_sales_order_creditmemo_view>
+        <reference name="creditmemo_totals">
+            <block type="adminhtml/sales_order_totals_item" name="fee.refunded" template="brander/payment_fee/sales/order/refunded.phtml">
+                <action method="setDisplayArea">
+                    <area>footer</area>
+                </action>
+            </block>
+        </reference>
+    </adminhtml_sales_order_creditmemo_view>
+</layout>
