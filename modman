@@ -1,0 +1,5 @@
+src/app/code/community/Brander/PaymentFee	app/code/community/Brander/PaymentFee
+src/app/etc/modules/Brander_PaymentFee.xml	app/etc/modules/Brander_PaymentFee.xml
+src/app/design/frontend/default/default/layout/brander/payment_fee.xml	app/design/frontend/default/default/layout/brander/payment_fee.xml
+src/app/design/adminhtml/default/default/layout/brander/payment_fee.xml	app/design/adminhtml/default/default/layout/brander/payment_fee.xml
+src/app/design/adminhtml/default/default/template/brander/payment_fee	app/design/adminhtml/default/default/template/brander/payment_fee

@@ -1,0 +1,20 @@
+{
+    "name": "devromans/payment-fee",
+    "type": "magento-module",
+    "license": "MIT",
+    "homepage": "https://github.com/ffmengineering/payment-fee",
+    "description": "Adds payment method based fee",
+    "authors": [
+        {
+            "name": "Roman S.",
+            "url": "https://github.com/devromans"
+        },
+        {
+            "name": "Sander Mangel",
+            "email": "s.mangel@fitforme.nl"
+        }
+    ],
+    "require": {
+        "magento-hackathon/magento-composer-installer": "*"
+    }
+}
