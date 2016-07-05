@@ -3,7 +3,7 @@
     <modules>
         <Brander_PaymentFee>
             <active>true</active>
-            <codePool>local</codePool>
+            <codePool>community</codePool>
             <depends>
                 <Mage_Sales />
             </depends>
