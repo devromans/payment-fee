@@ -56,7 +56,7 @@ class Brander_PaymentFee_Helper_Data extends Mage_Core_Helper_Abstract {
      */
     public function getFee() {
         if (is_null($this->fee)) {
-            $fees = unserialize($this->getConfig('fee'));
+            $fees = (array)unserialize($this->getConfig('fee'));
             foreach ($fees as $fee) {
                 $this->fee[$fee['payment_method']] = array(
                     'fee'         => $fee['fee'],
