@@ -56,14 +56,17 @@ class Brander_PaymentFee_Model_Sales_Quote_Address_Total_Fee extends Mage_Sales_
      * @return Brander_PaymentFee_Model_Sales_Quote_Address_Total_Fee
      */
     public function fetch(Mage_Sales_Model_Quote_Address $address) {
-        $amount = $address->getFeeAmount();
-        $title  = Mage::getModel('payment_fee/fee')->getTotalTitle(null,$address->getQuote());
-        $address->addTotal(array(
-                                'code'  => $this->getCode(),
-                                'title' => $title,
-                                'value' => $amount
-                           ));
-
-        return $this;
+        $amount = Mage::helper('payment_fee')->getFee();
+        if ($amount != 0 && $address->getAddressType() == 'shipping') {    // billing & shipping address
+            $title = Mage::getModel('payment_fee/fee')->getTotalTitle(null, $address->getQuote());
+            $address->addTotal(
+                array(
+                    'code' => $this->getCode(),
+                    'title' => $amount['bankpayment']['description'],
+                    'value' => $amount['bankpayment']['fee']
+                )
+            );
+            return $this;
+        }
     }
 }
