@@ -36,7 +36,7 @@ class Brander_PaymentFee_Helper_Data extends Mage_Core_Helper_Abstract {
      */
     public function getConfig($field = '') {
         if ($field) {
-            return Mage::getStoreConfig(self::XML_PATH_SYSTEM_CONFIG . $field, Mage::app()->getStore());
+            return Mage::getStoreConfig(self::XML_PATH_SYSTEM_CONFIG . $field, $this->getCurrentStoreId());
         }
 
         return NULL;
@@ -56,7 +56,7 @@ class Brander_PaymentFee_Helper_Data extends Mage_Core_Helper_Abstract {
      */
     public function getFee() {
         if (is_null($this->fee)) {
-            $fees = unserialize($this->getConfig('fee'));
+            $fees = (array)unserialize($this->getConfig('fee'));
             foreach ($fees as $fee) {
                 $this->fee[$fee['payment_method']] = array(
                     'fee'         => $fee['fee'],
@@ -66,5 +66,19 @@ class Brander_PaymentFee_Helper_Data extends Mage_Core_Helper_Abstract {
         }
 
         return $this->fee;
+    }
+
+    /**
+     * Get Current Store id
+     * @return int
+     */
+    public function getCurrentStoreId()
+    {
+        $storeId = Mage::getSingleton('adminhtml/session_quote')->getStoreId();
+        if ($storeId){ // if order is created from adminpanel
+            return $storeId;
+        }else{ // if order is created from frontend
+            return Mage::app()->getStore();
+        }
     }
 }
