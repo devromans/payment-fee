@@ -11,7 +11,8 @@
 /**
  * Class Brander_PaymentFee_Model_Sales_Order_Total_Creditmemo_Fee
  */
-class Brander_PaymentFee_Model_Sales_Order_Total_Creditmemo_Fee extends Mage_Sales_Model_Order_Creditmemo_Total_Abstract {
+class Brander_PaymentFee_Model_Sales_Order_Total_Creditmemo_Fee extends Mage_Sales_Model_Order_Creditmemo_Total_Abstract 
+{
     /**
      * Collect credit memo total
      *
@@ -21,11 +22,14 @@ class Brander_PaymentFee_Model_Sales_Order_Total_Creditmemo_Fee extends Mage_Sal
     public function collect(Mage_Sales_Model_Order_Creditmemo $creditmemo) {
         $order = $creditmemo->getOrder();
         if ($order->getFeeAmountInvoiced() > 0) {
-            $feeAmountLeft     = $order->getFeeAmountInvoiced() - $order->getFeeAmountRefunded();
-            $basefeeAmountLeft = $order->getBaseFeeAmountInvoiced() - $order->getBaseFeeAmountRefunded();
+            $feeAmountLeft     = max($order->getFeeAmount(), $order->getFeeAmountInvoiced() - $order->getFeeAmountRefunded());
+            $basefeeAmountLeft = max($order->getBaseFeeAmount(), $order->getBaseFeeAmountInvoiced() - $order->getBaseFeeAmountRefunded());
             if ($basefeeAmountLeft > 0) {
-                $creditmemo->setGrandTotal($creditmemo->getGrandTotal() + $feeAmountLeft);
-                $creditmemo->setBaseGrandTotal($creditmemo->getBaseGrandTotal() + $basefeeAmountLeft);
+                $capBaseAmount = min($order->getBaseTotalPaid(), $creditmemo->getBaseGrandTotal() + $basefeeAmountLeft);
+                $capAmount = min($order->getTotalPaid(), $creditmemo->getGrandTotal() + $feeAmountLeft);
+
+                $creditmemo->setGrandTotal($capAmount);
+                $creditmemo->setBaseGrandTotal($capBaseAmount);
                 $creditmemo->setFeeAmount($feeAmountLeft);
                 $creditmemo->setBaseFeeAmount($basefeeAmountLeft);
             }
