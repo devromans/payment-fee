@@ -22,19 +22,14 @@ class Brander_PaymentFee_Model_Fee extends Mage_Core_Model_Abstract {
     public $methodFee = NULL;
 
     /**
-     * Constructor
-     */
-    public function __construct() {
-        $this->_getMethodFee();
-    }
-
-    /**
      * Retrieve Payment Method Fees from Store Config
+     *
+     * @param null|int $storeId
      * @return array
      */
-    protected function _getMethodFee() {
+    protected function _getMethodFee($storeId = null) {
         if (is_null($this->methodFee)) {
-            $this->methodFee = Mage::helper('payment_fee')->getFee();
+            $this->methodFee = Mage::helper('payment_fee')->getFee($storeId);
         }
 
         return $this->methodFee;
@@ -73,6 +68,8 @@ class Brander_PaymentFee_Model_Fee extends Mage_Core_Model_Abstract {
         /* @var $quote Mage_Sales_Model_Quote */
         $quote   = $address->getQuote();
         $method  = $quote->getPayment()->getMethod();
+
+        $this->_getMethodFee($quote->getStoreId());
         $fee     = $this->methodFee[$method]['fee'];
         $feeType = $helper->getFeeType();
         if ($feeType == Mage_Shipping_Model_Carrier_Abstract::HANDLING_TYPE_FIXED) {
@@ -101,6 +98,9 @@ class Brander_PaymentFee_Model_Fee extends Mage_Core_Model_Abstract {
         if (!$method) {
             $method = $quote->getPayment()->getMethod();
         }
+
+        $this->_getMethodFee($quote->getStoreId());
+
         if ($method) {
             if (isset($this->methodFee[$method]) && $this->methodFee[$method]['description']) {
                 $title = $this->methodFee[$method]['description'];
