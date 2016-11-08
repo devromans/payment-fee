@@ -31,12 +31,17 @@ class Brander_PaymentFee_Helper_Data extends Mage_Core_Helper_Abstract {
 
     /**
      * Retrieve Store Config
+     *
      * @param string $field
+     * @param null|int $storeId
      * @return mixed|null
      */
-    public function getConfig($field = '') {
+    public function getConfig($field = '', $storeId=null) {
         if ($field) {
-            return Mage::getStoreConfig(self::XML_PATH_SYSTEM_CONFIG . $field, $this->getCurrentStoreId());
+            if ($storeId ==null) {
+                $storeId = $this->getCurrentStoreId();
+            }
+            return Mage::getStoreConfig(self::XML_PATH_SYSTEM_CONFIG . $field, $storeId);
         }
 
         return NULL;
@@ -52,12 +57,14 @@ class Brander_PaymentFee_Helper_Data extends Mage_Core_Helper_Abstract {
 
     /**
      * Retrieve and unserialize Payment Method and their Fees array from Store Config
+     *
+     * @param null|int $storeId
      * @return array
      */
-    public function getFee() {
+    public function getFee($storeId = null) {
         if (is_null($this->fee)) {
-            $fees = (array)unserialize($this->getConfig('fee'));
-            foreach ($fees as $fee) {
+            $fees = (array)unserialize($this->getConfig('fee', $storeId));
+            foreach ((array)$fees as $fee) {
                 $this->fee[$fee['payment_method']] = array(
                     'fee'         => $fee['fee'],
                     'description' => $fee['description']
