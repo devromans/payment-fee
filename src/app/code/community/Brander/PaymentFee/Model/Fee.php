@@ -68,26 +68,11 @@ class Brander_PaymentFee_Model_Fee extends Mage_Core_Model_Abstract {
      * @return float|int
      */
     public function getFee(Mage_Sales_Model_Quote_Address $address) {
-        /* @var $helper Brander_PaymentFee_Helper_Data */
-        $helper = Mage::helper('payment_fee');
         /* @var $quote Mage_Sales_Model_Quote */
         $quote   = $address->getQuote();
         $method  = $quote->getPayment()->getMethod();
         $fee     = $this->methodFee[$method]['fee'];
-        $feeType = $helper->getFeeType();
-        if ($feeType == Mage_Shipping_Model_Carrier_Abstract::HANDLING_TYPE_FIXED) {
-            return $fee;
-        } else {
-            $totals = $quote->getTotals();
-            $sum    = 0;
-            foreach ($totals as $total) {
-                if ($total->getCode() != self::TOTAL_CODE) {
-                    $sum += (float)$total->getValue();
-                }
-            }
-
-            return ($sum * ($fee / 100));
-        }
+        return $fee;
     }
 
     /**
