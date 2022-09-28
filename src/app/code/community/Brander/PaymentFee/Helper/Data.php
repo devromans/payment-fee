@@ -56,10 +56,22 @@ class Brander_PaymentFee_Helper_Data extends Mage_Core_Helper_Abstract {
      */
     public function getFee() {
         if (is_null($this->fee)) {
+            $feeType = $this->getFeeType();
+            $quote = Mage::getModel('checkout/session')->getQuote();
+            $total = $quote->getData()['subtotal'] + $quote->getShippingAddress()->getShippingAmount();
             $fees = (array)unserialize($this->getConfig('fee'));
+
             foreach ($fees as $fee) {
+                $currentFee = 0;
+
+                if ($feeType == Mage_Shipping_Model_Carrier_Abstract::HANDLING_TYPE_FIXED) {
+                    $currentFee = $fee['fee'];
+                } else {
+                    $currentFee = ($total * $fee['fee']) / 100;
+                }
+
                 $this->fee[$fee['payment_method']] = array(
-                    'fee'         => $fee['fee'],
+                    'fee'         => $currentFee,
                     'description' => $fee['description']
                 );
             }
